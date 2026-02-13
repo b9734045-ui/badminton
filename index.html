@@ -32,7 +32,7 @@
       background: radial-gradient(1000px 500px at 10% -10%, #184c35 0%, var(--bg) 50%) fixed;
       color: var(--text);
       font-family: "Segoe UI", "Noto Sans TC", sans-serif;
-      padding: 10px;
+      padding: max(10px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));
     }
 
     .app {
@@ -189,10 +189,71 @@
 
     .hint { margin-top: 10px; font-size: .9rem; color: var(--muted); }
 
+    .action-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .action-row .btn {
+      flex: 1;
+      min-width: 140px;
+    }
+
     @media (max-width: 520px) {
-      .row.mobile-col { flex-direction: column; }
-      .score-line { font-size: 2rem; }
-      canvas { height: 320px; }
+      body { padding: 0; }
+      .app {
+        min-height: 100dvh;
+        border-radius: 0;
+        border: none;
+      }
+      .header {
+        position: sticky;
+        top: 0;
+        z-index: 4;
+      }
+      .title { font-size: 1.02rem; }
+      .subtitle { font-size: .8rem; }
+      .tabs {
+        position: sticky;
+        top: 62px;
+        z-index: 3;
+        overflow-x: auto;
+        padding: 8px;
+      }
+      .tab-btn {
+        min-width: 90px;
+        padding: 12px 10px;
+        font-size: .92rem;
+        white-space: nowrap;
+      }
+      .tab-pane { padding: 8px; }
+      .card { padding: 10px 8px; }
+      .row { flex-wrap: wrap; }
+      .row.mobile-col { flex-direction: column; align-items: stretch; }
+      .row.mobile-col .btn { width: 100%; }
+      .list-wrap { max-height: 220px; }
+      .player-item { padding: 11px 10px; }
+      .score-line { font-size: 1.7rem; }
+      .state-text, .server-text { font-size: .85rem; }
+      canvas { height: min(300px, 52vh); }
+      .schedule-out {
+        min-height: 170px;
+        max-height: 240px;
+        font-size: .82rem;
+      }
+      #roundInput, #matchSelect {
+        max-width: 100% !important;
+      }
+      .action-row {
+        position: sticky;
+        bottom: 0;
+        background: linear-gradient(to top, rgba(15,44,32,.95), rgba(15,44,32,.8));
+        padding: 8px 0 env(safe-area-inset-bottom);
+      }
+      .action-row .btn {
+        min-height: 44px;
+      }
     }
   </style>
 </head>
@@ -260,11 +321,9 @@
 
         <div class="court-wrap"><canvas id="courtCanvas"></canvas></div>
 
-        <div class="row mobile-col" style="margin-top:10px">
+        <div class="action-row" style="margin-top:10px">
           <button id="aWinBtn" class="btn">A 贏此球</button>
           <button id="bWinBtn" class="btn">B 贏此球</button>
-        </div>
-        <div class="row mobile-col">
           <button id="resetBtn" class="btn secondary">重設此場比分</button>
           <button id="nextMatchBtn" class="btn secondary" disabled>進入下一場</button>
         </div>
